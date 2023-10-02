@@ -13,7 +13,7 @@ public class AgendaModelo implements AgendaInterface {
 	 * Ruta del fichero donde se almacenará la información
 	 */
 	private String ruta;
-	
+
 	@Override
 	public boolean agregarContacto(Contacto contacto) {
 		try {
@@ -28,8 +28,28 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public Contacto buscarPorUUID(UUID usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		Contacto contactoEncontrado = null;
+		try {
+			MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
+
+			Object obj;
+			while ((obj = objInpStream.readObject()) != null) {
+				if (obj instanceof Contacto) {
+					Contacto contacto = (Contacto) obj;
+					if (contacto.getUsuario().equals(usuario)) {
+						contactoEncontrado = contacto;
+						break; // Encontramos el contacto, salimos del bucle
+					}
+				}
+			}
+		} catch (EOFException e) {
+			// Fin del archivo alcanzado, no se encontró el contacto
+			return null;
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return contactoEncontrado;
 	}
 
 	@Override
@@ -43,17 +63,17 @@ public class AgendaModelo implements AgendaInterface {
 		ArrayList<Contacto> contactos = new ArrayList<Contacto>();
 		try {
 			MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
-			
-			while(true) {
+
+			while (true) {
 				try {
 					Contacto contacto = (Contacto) objInpStream.readObject();
 					contactos.add(contacto);
-				} catch(EOFException e) {
+				} catch (EOFException e) {
 					objInpStream.close();
 					return contactos;
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

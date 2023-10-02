@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import lombok.*;
 
+@SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 public class Contacto implements Serializable {
+
 	private UUID usuario;
 	private String nombre;
 	private String telefono;

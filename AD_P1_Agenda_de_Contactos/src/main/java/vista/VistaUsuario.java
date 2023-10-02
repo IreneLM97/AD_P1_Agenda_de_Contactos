@@ -1,6 +1,8 @@
 package vista;
 
-import io.*;
+import java.util.UUID;
+
+import controlador.IO;
 import modelo.*;
 
 /**
@@ -31,6 +33,16 @@ public class VistaUsuario {
 		return IO.readInt();
 	}
 	
+	public static UUID solicitarUUID() {
+		System.out.println("UUID ?");
+		try {
+		    UUID usuarioUUID = java.util.UUID.fromString(IO.readStringNoEmpty());
+		    return usuarioUUID;
+		} catch (IllegalArgumentException e) {
+		    return null;
+		}	
+	}
+	
 	public static Contacto solicitarContacto() {
 		System.out.println("Nombre ?");
 		String nombre = IO.readStringNoEmpty();
@@ -40,5 +52,13 @@ public class VistaUsuario {
 		int edad = IO.readInt();
 		
 		return new Contacto(nombre, telefono, edad);
+	}
+	
+	public static void mostrarAgenda(AgendaModelo agenda) {
+		agenda.obtenerAgenda().stream().forEach(System.out :: println);
+	}
+	
+	public static void mostrarMsg(String msg) {
+		System.out.println(msg);
 	}
 }

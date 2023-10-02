@@ -1,11 +1,6 @@
 package controlador;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.Scanner;
-
-import constantes.color.Colores;
 
 /**
  * Clase con métodos de lectura correcta de datos
@@ -58,29 +53,5 @@ public class IO {
 	 * 
 	 * @return Properties
 	 */
-	public static Properties cargarProperties() {
-        Properties prop = new Properties();
-        InputStream input = null;
-
-        try {
-            input = IO.class.getResourceAsStream("/StringResources.properties");
-            if (input != null) {
-                prop.load(input);
-            } else {
-                System.err.println("No se pudo cargar el archivo de propiedades.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return prop;
-    }
+	
 }

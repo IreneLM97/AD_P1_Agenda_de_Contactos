@@ -1,7 +1,8 @@
 package controlador;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import modelo.*;
@@ -20,35 +21,48 @@ public class Principal {
 
 	public static void main(String[] args) {
 		// cargamos el properties que contiene los Strings
-		Properties prop = IO.cargarProperties();	
+		Properties prop = cargarProperties();	
 		
 		// creamos una agenda 
 		AgendaModelo agenda = new AgendaModelo(prop.getProperty("ruta.contactos.dat"));
 		Contacto contacto;
 		
-		while(true) {
-			// mostramos el menú al usuario
-			VistaUsuario.mostrarMenu();
-			
+		// mostramos el menú al usuario
+		VistaUsuario.mostrarMenu();
+		do {
 			// recogemos la opción marcada
 			int opcion = VistaUsuario.solicitarOpcion();
 			switch(opcion) {
 			
 				// buscar por código
 				case 1: 
-					contacto = agenda.buscarPorUUID(VistaUsuario.solicitarUUID());
-					if(contacto == null) { // no se encuentra contacto
+					ArrayList<Contacto> contactoEncontrado = new ArrayList<>();
+					contactoEncontrado.add(agenda.buscarPorUUID(VistaUsuario.solicitarUUID()));
+					if(contactoEncontrado.get(0)== null) { // no se encuentra contacto
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarMenu();
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID") + Colores.RESET);
 					} else { // se encuentra contacto
-						VistaUsuario.mostrarMsg(Colores.AMARILLO + contacto.toString() + Colores.RESET);
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarAgenda(contactoEncontrado);
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarMenu();
 					}
 					break;
 					
 				// buscar por nombre
 				case 2: 
-					List<Contacto> contactosEncontrados = agenda.buscarPorNombre(VistaUsuario.solicitarNombre());
-					contactosEncontrados.stream()
-										.forEach(x -> VistaUsuario.mostrarMsg(Colores.AMARILLO + x + Colores.RESET));
+					ArrayList<Contacto> contactosEncontrados = agenda.buscarPorNombre(VistaUsuario.solicitarNombre());
+					if (contactosEncontrados.isEmpty()) {
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarMenu();
+					    VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.nombreNoEncontrado") + Colores.RESET);
+					} else {
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarAgenda(contactosEncontrados);
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarMenu();
+					}
 					break;
 					
 				// mostrar agenda completa
@@ -57,13 +71,18 @@ public class Principal {
 					if(contactos == null) {  // no se pueden mostrar los contactos
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.accesoContactos") + Colores.RESET);
 					} else {  // mostramos los contactos
-						VistaUsuario.mostrarAgenda(agenda);
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarAgenda(contactos);
+						VistaUsuario.mostrarSeparador();
+						VistaUsuario.mostrarMenu();
 					}
 					break;
 					
 				// añadir contacto
 				case 4: 
 					contacto = VistaUsuario.solicitarContacto();
+					VistaUsuario.mostrarSeparador();
+					VistaUsuario.mostrarMenu();
 					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.añadido") + Colores.RESET);
 					break;
 					
@@ -78,9 +97,37 @@ public class Principal {
 					
 				// opción inválida
 				default: 
+					VistaUsuario.mostrarSeparador();
+					VistaUsuario.mostrarMenu();
 					VistaUsuario.mostrarMsg(Colores.ROJO +  prop.getProperty("error.opcion.incorrecta") + Colores.RESET);
 					break;
 			}
-		}		
+		} while (true);	
+	}
+
+	private static Properties cargarProperties() {
+		Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+            input = IO.class.getResourceAsStream("/StringResources.properties");
+            if (input != null) {
+                prop.load(input);
+            } else {
+                System.err.println("No se pudo cargar el archivo de propiedades.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return prop;
 	}
 }

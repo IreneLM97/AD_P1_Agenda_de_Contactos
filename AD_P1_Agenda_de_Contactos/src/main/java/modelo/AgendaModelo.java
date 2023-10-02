@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import lombok.*;
 
@@ -34,10 +35,10 @@ public class AgendaModelo implements AgendaInterface {
 	}
 
 	@Override
-	public List<Contacto> buscarPorNombre(String nombre) {
-		return obtenerAgenda().stream()
-				.filter(x -> x.getNombre().startsWith(nombre))
-				.toList();  
+	public ArrayList<Contacto> buscarPorNombre(String nombre) {
+	    return obtenerAgenda().stream()
+	            .filter(x -> x.getNombre().startsWith(nombre))
+	            .collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	@Override

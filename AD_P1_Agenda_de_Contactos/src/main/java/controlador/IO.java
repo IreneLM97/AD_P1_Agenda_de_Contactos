@@ -23,7 +23,7 @@ public class IO {
 			try {
 				return Integer.parseInt(sc.nextLine());
 			} catch (Exception e) {
-				System.err.print("ERROR: No es de tipo int ? ");
+				System.err.print("ERROR: no es de tipo int ? ");
 			}
 		}
 	}

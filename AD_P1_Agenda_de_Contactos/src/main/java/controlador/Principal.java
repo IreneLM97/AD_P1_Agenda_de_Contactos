@@ -1,8 +1,8 @@
 package controlador;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 import modelo.*;
 import vista.*;
@@ -19,11 +19,13 @@ import constantes.color.*;
 public class Principal {
 
 	public static void main(String[] args) {
-		//Cargamos el properties que contiene los Strings
-		Properties prop = IO.cargarProperties();		
+		// cargamos el properties que contiene los Strings
+		Properties prop = IO.cargarProperties();	
+		
 		// creamos una agenda 
 		AgendaModelo agenda = new AgendaModelo(prop.getProperty("ruta.contactos.dat"));
 		Contacto contacto;
+		
 		while(true) {
 			// mostramos el menú al usuario
 			VistaUsuario.mostrarMenu();
@@ -31,19 +33,26 @@ public class Principal {
 			// recogemos la opción marcada
 			int opcion = VistaUsuario.solicitarOpcion();
 			switch(opcion) {
-				case 1: // buscar por código
+			
+				// buscar por código
+				case 1: 
 					contacto = agenda.buscarPorUUID(VistaUsuario.solicitarUUID());
-					if(contacto != null) {
-						VistaUsuario.mostrarMsg(Colores.AMARILLO +  contacto.toString() + Colores.RESET);;
-					}else {
-						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID")+ Colores.RESET);
+					if(contacto == null) { // no se encuentra contacto
+						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID") + Colores.RESET);
+					} else { // se encuentra contacto
+						VistaUsuario.mostrarMsg(Colores.AMARILLO + contacto.toString() + Colores.RESET);
 					}
 					break;
 					
-				case 2: // buscar por nombre
+				// buscar por nombre
+				case 2: 
+					List<Contacto> contactosEncontrados = agenda.buscarPorNombre(VistaUsuario.solicitarNombre());
+					contactosEncontrados.stream()
+										.forEach(x -> VistaUsuario.mostrarMsg(Colores.AMARILLO + x + Colores.RESET));
 					break;
 					
-				case 3: // mostrar agenda completa
+				// mostrar agenda completa
+				case 3: 
 					ArrayList<Contacto> contactos = agenda.obtenerAgenda();
 					if(contactos == null) {  // no se pueden mostrar los contactos
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.accesoContactos") + Colores.RESET);
@@ -52,20 +61,23 @@ public class Principal {
 					}
 					break;
 					
-				case 4: // añadir contacto
+				// añadir contacto
+				case 4: 
 					contacto = VistaUsuario.solicitarContacto();
-					String respuesta = agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.añadido") + Colores.RESET : Colores.ROJO + prop.getProperty("error.añadido") + Colores.RESET;
-					VistaUsuario.mostrarMsg(respuesta);
+					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.añadido") + Colores.RESET);
 					break;
 					
-				case 5: // eliminar contacto
+				// eliminar contacto
+				case 5: 
 					break;
 					
-				case 6: // borrar contacto
-					VistaUsuario.mostrarMsg(Colores.AMARILLO + prop.getProperty("msg.añadido") + Colores.RESET);
+				// salir del menú
+				case 6: 
+					VistaUsuario.mostrarMsg(Colores.AMARILLO + prop.getProperty("msg.salida.menu") + Colores.RESET);
 					return;
 					
-				default: // opción inválida
+				// opción inválida
+				default: 
 					VistaUsuario.mostrarMsg(Colores.ROJO +  prop.getProperty("error.opcion.incorrecta") + Colores.RESET);
 					break;
 			}

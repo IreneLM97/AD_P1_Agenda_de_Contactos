@@ -1,8 +1,7 @@
 package modelo;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 import lombok.*;
 
@@ -28,34 +27,17 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public Contacto buscarPorUUID(UUID usuario) {
-		Contacto contactoEncontrado = null;
-		try {
-			MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
-
-			Object obj;
-			while ((obj = objInpStream.readObject()) != null) {
-				if (obj instanceof Contacto) {
-					Contacto contacto = (Contacto) obj;
-					if (contacto.getUsuario().equals(usuario)) {
-						contactoEncontrado = contacto;
-						break; // Encontramos el contacto, salimos del bucle
-					}
-				}
-			}
-		} catch (EOFException e) {
-			// Fin del archivo alcanzado, no se encontró el contacto
-			return null;
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return contactoEncontrado;
+		return obtenerAgenda().stream()
+				.filter(x -> x.getUsuario().equals(usuario))
+				.findAny()
+				.orElse(null);
 	}
 
 	@Override
-	public ArrayList<Contacto> buscarPorNombre(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Contacto> buscarPorNombre(String nombre) {
+		return obtenerAgenda().stream()
+				.filter(x -> x.getNombre().startsWith(nombre))
+				.toList();  
 	}
 
 	@Override

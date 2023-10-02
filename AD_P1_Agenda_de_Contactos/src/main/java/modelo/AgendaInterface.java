@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public interface AgendaInterface {
@@ -23,7 +24,7 @@ public interface AgendaInterface {
 	 * @param nombre
 	 * @return listado de contactos
 	 */
-	public ArrayList<Contacto> buscarPorNombre(String nombre);
+	public List<Contacto> buscarPorNombre(String nombre);
 	
 	/**
 	 * Método para mostrar todos los contactos de la agenda

@@ -41,7 +41,7 @@ public class Principal {
 					if(contacto == null) { // no se encuentra contacto
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID") + Colores.RESET);
 					} else { // se encuentra contacto
-						VistaUsuario.mostrarMsg(Colores.AMARILLO + contacto.toString() + Colores.RESET);
+						VistaUsuario.mostrarContactos(new ArrayList<Contacto>(java.util.Arrays.asList(contacto)));
 					}
 					break;
 					
@@ -51,7 +51,7 @@ public class Principal {
 					if (contactosEncontrados.isEmpty()) {
 					    VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.nombreNoEncontrado") + Colores.RESET);
 					} else {
-						VistaUsuario.mostrarAgenda(contactosEncontrados);
+						VistaUsuario.mostrarContactos(contactosEncontrados);
 					}
 					break;
 					
@@ -61,7 +61,7 @@ public class Principal {
 					if(contactos == null) {  // no se pueden mostrar los contactos
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.accesoContactos") + Colores.RESET);
 					} else {  // mostramos los contactos
-						VistaUsuario.mostrarAgenda(contactos);
+						VistaUsuario.mostrarContactos(contactos);
 					}
 					break;
 					

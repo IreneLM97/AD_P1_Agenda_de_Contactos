@@ -88,7 +88,7 @@ public class VistaUsuario {
 	 * Muestra una lista de contactos de la agenda
 	 * @param lista de contactos a mostrar
 	 */
-	public static void mostrarAgenda(ArrayList<Contacto> contactos) {
+	public static void mostrarContactos(ArrayList<Contacto> contactos) {
 	    System.out.println("------------------------------------------------------------------------");
 	    System.out.printf("| %-36s | %-10s | %-3s | %-10s|%n", "UUID", "Nombre", "Edad", "Teléfono");
 	    System.out.println("------------------------------------------------------------------------");

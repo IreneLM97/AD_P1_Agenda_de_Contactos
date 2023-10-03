@@ -1,15 +1,17 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
+/**
+ * Interfaz con los métodos necesarios para gestionar la agenda
+ */
 public interface AgendaInterface {
 	
 	/**
 	 * Método para buscar un contacto por UUID
-	 * @param usuario
-	 * @return contacto encontrado
+	 * @param usuario (UUID)
+	 * @return contacto encontrado o null si no encuentra
 	 */
 	public Contacto buscarPorUUID(UUID usuario);
 	
@@ -18,11 +20,11 @@ public interface AgendaInterface {
 	 * @param nombre
 	 * @return listado de contactos
 	 */
-	public List<Contacto> buscarPorNombre(String nombre);
+	public ArrayList<Contacto> buscarPorNombre(String nombre);
 	
 	/**
-	 * Método para mostrar todos los contactos de la agenda
-	 * @return listado de contactos
+	 * Método para obtener todos los contactos de la agenda
+	 * @return listado de contactos o null si hay problemas con la lectura
 	 */
 	public ArrayList<Contacto> obtenerAgenda();
 	
@@ -33,13 +35,11 @@ public interface AgendaInterface {
 	 */
 	public boolean agregarContacto(Contacto contacto);
 	
-	
 	/**
-	 * Método para eliminar un contacto de la agenda
-	 * @param usuario
+	 * Método para eliminar un contacto de la agenda dado su UUID
+	 * @param usuario (UUID)
 	 * @return true si se ha podido realizar, false en caso contrario
 	 */
-
-	public boolean eliminarVirtualmenteContacto(UUID usuario);
+	public boolean eliminarContacto(UUID usuario);
 
 }

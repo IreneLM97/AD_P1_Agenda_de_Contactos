@@ -7,6 +7,9 @@ import java.util.UUID;
  * Clase con métodos de lectura correcta de datos
  */
 public class IO {
+	/**
+	 * Scanner de lectura
+	 */
 	private static Scanner sc = new Scanner(System.in);
 	
 	/**

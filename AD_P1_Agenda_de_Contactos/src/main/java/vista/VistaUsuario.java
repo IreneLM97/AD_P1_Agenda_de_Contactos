@@ -97,7 +97,7 @@ public class VistaUsuario {
 		                contacto.getNombre(),
 		                contacto.getEdad(),
 		                contacto.getTelefono());
-	        }else {
+	        } else {
 	        	System.out.printf( Colores.AMARILLO + " %50s " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|" + Colores.AMARILLO +" %-3d " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|%n",
 		                contacto.getUsuario(),
 		                contacto.getNombre(),

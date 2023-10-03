@@ -15,7 +15,7 @@ public class MyObjectOutputStream extends ObjectOutputStream {
     }
 
     /** 
-     * Redefinición del método de escribir la cabecera para que no haga nada. 
+     * Redefinición del método de escribir la cabecera para que no haga nada
      */
     protected void writeStreamHeader() throws IOException
     {

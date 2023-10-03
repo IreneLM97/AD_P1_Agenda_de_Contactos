@@ -20,7 +20,7 @@ import constantes.color.*;
 public class Principal {
 
 	/**
-	 * Clase principal del programa
+	 * Método principal del programa
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Principal {
 					contacto = agenda.buscarPorUUID(VistaUsuario.solicitarUUID());
 					if(contacto == null) { // no se encuentra contacto
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID") + Colores.RESET);
-					} else { // se encuentra contacto
+					} else { // se encuentra contacto -> se convierte a ArrayList para mostrarlo con diseño en la consola
 						VistaUsuario.mostrarContactos(new ArrayList<Contacto>(java.util.Arrays.asList(contacto)));
 					}
 					break;
@@ -52,9 +52,9 @@ public class Principal {
 				// buscar por nombre
 				case 2: 
 					ArrayList<Contacto> contactosEncontrados = agenda.buscarPorNombre(VistaUsuario.solicitarNombre());
-					if (contactosEncontrados.isEmpty()) {
+					if (contactosEncontrados.isEmpty()) { // no se encuentran contactos
 					    VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.nombreNoEncontrado") + Colores.RESET);
-					} else {
+					} else { // se encuentran contactos
 						VistaUsuario.mostrarContactos(contactosEncontrados);
 					}
 					break;
@@ -71,13 +71,15 @@ public class Principal {
 					
 				// añadir contacto
 				case 4: 
-					contacto = VistaUsuario.solicitarContacto();					
+					contacto = VistaUsuario.solicitarContacto(); 
+					// mostramos mensaje en función de si se pudo agregar o no
 					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.agregado") + Colores.RESET);
 					break;
 					
 				// eliminar contacto
 				case 5: 
-					VistaUsuario.mostrarMsg(agenda.eliminarVirtualmenteContacto(VistaUsuario.solicitarUUID()) ? Colores.VERDE + prop.getProperty("msg.eliminado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.eliminado") + Colores.RESET);
+					// intentamos eliminar y mostramos mensaje en función de si se pudo agregar o no
+					VistaUsuario.mostrarMsg(agenda.eliminarContacto(VistaUsuario.solicitarUUID()) ? Colores.VERDE + prop.getProperty("msg.eliminado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.eliminado") + Colores.RESET);
 					break;
 					
 				// salir del menú
@@ -97,7 +99,7 @@ public class Principal {
 	}
 
 	/**
-	 * Carga el fichero de properties que se encuentra en la carpeta resources (Por defecto eclipse sabe identificar esta carpeta)
+	 * Carga el fichero de properties que se encuentra en la carpeta resources (por defecto eclipse sabe identificar esta carpeta)
 	 * @return Properties
 	 */
 	private static Properties cargarProperties() {
@@ -111,16 +113,9 @@ public class Principal {
             } else {
                 System.err.println("No se pudo cargar el archivo de propiedades.");
             }
+            input.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return prop;

@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import lombok.*;
 
+/**
+ * Clase que implementa los métodos de la interfaz AgendaInterface
+ */
 @Data
 public class AgendaModelo implements AgendaInterface {
 	/**
@@ -15,14 +18,15 @@ public class AgendaModelo implements AgendaInterface {
 	
 	/**
 	 * Constructor para comprobar si existe el fichero y, si no existe, crearlo
-	 * @param ruta
+	 * @param ruta del fichero
 	 */
 	public AgendaModelo(String ruta) {
-		this.ruta = ruta;
+		this.ruta = ruta;  
 		File fichero = new File(ruta);
-		if(!fichero.exists()) {
+		// comprobamos si existe el fichero; si no existe se crea
+		if(!fichero.exists()) { 
 			try {
-				fichero.createNewFile();
+				fichero.createNewFile(); // creamos fichero
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -48,7 +52,10 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public ArrayList<Contacto> obtenerAgenda() {
+		// creamos ArrayList de contactos
 		ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+		
+		// leemos el fichero de objetos
 		try {
 			MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
 
@@ -63,24 +70,25 @@ public class AgendaModelo implements AgendaInterface {
 			}
 
 		} catch (Exception e) {
-			return null;
+			return null; // hay problemas con el fichero
 		}
 	}
 	
 	@Override
 	public boolean agregarContacto(Contacto contacto) {
+		// escribimos el contacto en el fichero de contactos
 		try {
 			MyObjectOutputStream objOutStream = new MyObjectOutputStream(new FileOutputStream(new File(ruta), true));
 			objOutStream.writeObject(contacto);
 			objOutStream.close();
-			return true;
+			return true; 
 		} catch (Exception e) {
-			return false;
+			return false; // ha habido problemas con la escritura
 		}
 	}
 
 	@Override
-	public boolean eliminarVirtualmenteContacto(UUID usuario) {
+	public boolean eliminarContacto(UUID usuario) {
 		// obtenemos todos los contactos de la agenda
 		ArrayList<Contacto> contactos = obtenerAgenda();
 		

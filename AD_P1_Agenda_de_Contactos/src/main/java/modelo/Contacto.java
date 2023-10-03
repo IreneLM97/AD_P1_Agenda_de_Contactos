@@ -5,11 +5,13 @@ import java.util.UUID;
 
 import lombok.*;
 
+/**
+ * Clase que da estructura a los contactos de la agenda
+ */
 @SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 public class Contacto implements Serializable {
-
 	private UUID usuario;
 	private String nombre;
 	private String telefono;

@@ -15,7 +15,7 @@ public class MyObjectInputStream extends ObjectInputStream {
     }
 
     /** 
-     * Redefinición del método de leer la cabecera para que no haga nada. 
+     * Redefinición del método de leer la cabecera para que no haga nada
      */
     protected void readStreamHeader() throws IOException
     {

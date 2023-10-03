@@ -83,7 +83,7 @@ public class AgendaModelo implements AgendaInterface {
 	@Override
 	public boolean eliminarVirtualmenteContacto(UUID usuario) {
 	    try {
-	        // abrimos el fichero original en modo lecturael fichero en modo lectura
+	        // abrimos el fichero original en modo lectura
 	        MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
 
 	        // creamos el archivo temporal para escribir los objetos modificados

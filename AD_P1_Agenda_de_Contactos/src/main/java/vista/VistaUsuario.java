@@ -89,19 +89,30 @@ public class VistaUsuario {
 	 * @param lista de contactos a mostrar
 	 */
 	public static void mostrarContactos(ArrayList<Contacto> contactos) {
-	    System.out.println("------------------------------------------------------------------------");
-	    System.out.printf("| %-36s | %-10s | %-3s | %-10s|%n", "UUID", "Nombre", "Edad", "Teléfono");
-	    System.out.println("------------------------------------------------------------------------");
+	    System.out.println("--------------------------------------------------------------------------------------");
+	    System.out.printf("| %-50s | %-10s | %-3s | %-10s|%n", "UUID", "Nombre", "Edad", "Teléfono");
+	    System.out.println("--------------------------------------------------------------------------------------");
 
 	    contactos.forEach(contacto -> {
-	        System.out.printf("|" + Colores.AMARILLO + " %-36s " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|" + Colores.AMARILLO +" %-3d " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|%n",
-	                contacto.getUsuario(),
-	                contacto.getNombre(),
-	                contacto.getEdad(),
-	                contacto.getTelefono());
+	        System.out.printf("|");
+	        if (contacto.getUsuario().toString().equals("00000000-0000-0000-0000-000000000000")) {
+	        	System.out.printf(Colores.ROJO + " BORRADO ->" + Colores.RESET);
+	        	System.out.printf( Colores.AMARILLO + " %39s " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|" + Colores.AMARILLO +" %-3d " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|%n",
+		                contacto.getUsuario(),
+		                contacto.getNombre(),
+		                contacto.getEdad(),
+		                contacto.getTelefono());
+	        }else {
+	        	System.out.printf( Colores.AMARILLO + " %50s " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|" + Colores.AMARILLO +" %-3d " + Colores.RESET + "|" + Colores.CYAN +" %-10s " + Colores.RESET + "|%n",
+		                contacto.getUsuario(),
+		                contacto.getNombre(),
+		                contacto.getEdad(),
+		                contacto.getTelefono());
+	        }
+	        
 	    });
 
-	    System.out.println("------------------------------------------------------------------------");
+	    System.out.println("--------------------------------------------------------------------------------------");
 	}
 	
 	/**

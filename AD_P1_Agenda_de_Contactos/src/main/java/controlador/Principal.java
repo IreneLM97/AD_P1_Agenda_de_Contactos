@@ -27,9 +27,10 @@ public class Principal {
 		AgendaModelo agenda = new AgendaModelo(prop.getProperty("ruta.contactos.dat"));
 		Contacto contacto;
 		
-		// mostramos el menú al usuario
-		VistaUsuario.mostrarMenu();
 		do {
+			// mostramos el menú al usuario
+			VistaUsuario.mostrarMenu();
+			
 			// recogemos la opción marcada
 			int opcion = VistaUsuario.solicitarOpcion();
 			switch(opcion) {
@@ -85,8 +86,8 @@ public class Principal {
 					break;
 			}
 			
+			// mostramos separador
 			VistaUsuario.mostrarSeparador();
-			VistaUsuario.mostrarMenu();
 		} while (true);	
 	}
 

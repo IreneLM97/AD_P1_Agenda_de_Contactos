@@ -37,6 +37,7 @@ public interface AgendaInterface {
 	 * @param usuario
 	 * @return true si se ha podido realizar, false en caso contrario
 	 */
-	public boolean eliminarContacto(UUID usuario);
+
+	public boolean eliminarVirtualmenteContacto(UUID uuidAEliminar);
 
 }

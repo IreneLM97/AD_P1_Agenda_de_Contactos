@@ -64,9 +64,49 @@ public class AgendaModelo implements AgendaInterface {
 	}
 
 	@Override
-	public boolean eliminarContacto(UUID usuario) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean eliminarVirtualmenteContacto(UUID uuidAEliminar) {
+        try {
+            // Abre el fichero en modo lectura y escritura
+        	MyObjectOutputStream objOutStream = new MyObjectOutputStream(new FileOutputStream(new File(ruta)));
 
+        	MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
+
+            // Lee todos los objetos del fichero original
+            List<Contacto> contactos = new ArrayList<>();
+            while (true) {
+                try {
+                    Contacto contacto = (Contacto) objInpStream.readObject();
+                    if (contacto.getUsuario().equals(uuidAEliminar)) {
+                        // Marca el objeto como "eliminado virtualmente" (establece el UUID a 0)
+                        contacto.setUsuario(new UUID(0, 0));
+                    }
+                    contactos.add(contacto);
+                } catch (EOFException e) {
+                    break; // Fin del fichero
+                }
+            }
+
+            // Escribe los objetos modificados en el fichero temporal
+            for (Contacto contacto : contactos) {
+            	objOutStream.writeObject(contacto);
+            }
+
+            // Cierra los flujos y renombra el fichero temporal al original
+            objOutStream.close();
+            objInpStream.close();
+
+
+            File originalFile = new File("contactos.dat");
+            File tempFile = new File("contactos.tmp");
+            if (tempFile.renameTo(originalFile)) {
+                return true;
+            } else {
+               return false;
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+		return true;
+    }
 }

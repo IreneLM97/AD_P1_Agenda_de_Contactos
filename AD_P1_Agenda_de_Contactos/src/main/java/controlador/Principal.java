@@ -67,13 +67,13 @@ public class Principal {
 				// añadir contacto
 				case 4: 
 					contacto = VistaUsuario.solicitarContacto();					
-					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.añadido") + Colores.RESET);
+					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.agregado") + Colores.RESET);
 					break;
 					
 				// eliminar contacto
 				case 5: 
+					VistaUsuario.mostrarMsg(agenda.eliminarVirtualmenteContacto(VistaUsuario.solicitarUUID()) ? Colores.VERDE + prop.getProperty("msg.eliminado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.eliminado") + Colores.RESET);
 					break;
-					
 				// salir del menú
 				case 6: 
 					VistaUsuario.mostrarMsg(Colores.AMARILLO + prop.getProperty("msg.salida.menu") + Colores.RESET);

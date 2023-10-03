@@ -19,6 +19,10 @@ import constantes.color.*;
 
 public class Principal {
 
+	/**
+	 * Clase principal del programa
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// cargamos el properties que contiene los Strings
 		Properties prop = cargarProperties();	
@@ -92,6 +96,10 @@ public class Principal {
 		} while (true);	
 	}
 
+	/**
+	 * Carga el fichero de properties que se encuentra en la carpeta resources (Por defecto eclipse sabe identificar esta carpeta)
+	 * @return Properties
+	 */
 	private static Properties cargarProperties() {
 		Properties prop = new Properties();
         InputStream input = null;

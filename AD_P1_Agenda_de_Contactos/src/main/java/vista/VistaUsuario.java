@@ -52,12 +52,7 @@ public class VistaUsuario {
 	 */
 	public static UUID solicitarUUID() {
 		System.out.print(Colores.RESET + "UUID?: ");
-		try {
-		    UUID usuarioUUID = java.util.UUID.fromString(IO.readStringNoEmpty());
-		    return usuarioUUID;
-		} catch (IllegalArgumentException e) {
-		    return null;
-		}	
+		return IO.readUUID();
 	}
 	
 	/**

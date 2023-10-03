@@ -1,6 +1,7 @@
 package vista;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * Clase con métodos de lectura correcta de datos
@@ -10,7 +11,6 @@ public class IO {
 	
 	/**
 	 * Lee un valor de tipo int
-	 * 
 	 * @return
 	 */
 	static public int readInt() {
@@ -24,8 +24,21 @@ public class IO {
 	}
 	
 	/**
+	 * Lee un valor de tipo UUID
+	 * @return
+	 */
+	static public UUID readUUID() {
+		while (true) {
+			try {
+				return java.util.UUID.fromString(IO.readStringNoEmpty());
+			} catch (Exception e) {
+				System.err.print("ERROR: no es de tipo UUID [" + new UUID(0, 0) + "] ? ");
+			}
+		}
+	}
+	
+	/**
 	 * Lee un valor de tipo String sin admitir cadena vacía
-	 * 
 	 * @return
 	 */
 	static public String readStringNoEmpty() {
@@ -41,17 +54,9 @@ public class IO {
 	
 	/**
 	 * Lee un valor de tipo String admitiendo cadena vacía
-	 * 
 	 * @return
 	 */
 	static public String readString() {
 		return sc.nextLine();
-	}
-	
-	/**
-	 * Carga el fichero de properties que se encuentra en la carpeta resources (Por defecto eclipse sabe identificar esta carpeta)
-	 * 
-	 * @return Properties
-	 */
-	
+	}	
 }

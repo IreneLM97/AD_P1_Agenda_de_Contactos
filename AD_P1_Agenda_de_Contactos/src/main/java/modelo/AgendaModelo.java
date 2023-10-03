@@ -14,7 +14,7 @@ public class AgendaModelo implements AgendaInterface {
 	private String ruta;
 	
 	/**
-	 * Constructor para asegurarse de que si no existe el archivo se cree
+	 * Constructor para comprobar si existe el fichero y, si no existe, crearlo
 	 * @param ruta
 	 */
 	public AgendaModelo(String ruta) {
@@ -63,7 +63,6 @@ public class AgendaModelo implements AgendaInterface {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -82,50 +81,28 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public boolean eliminarVirtualmenteContacto(UUID usuario) {
-	    try {
-	        // abrimos el fichero original en modo lectura
-	        MyObjectInputStream objInpStream = new MyObjectInputStream(new FileInputStream(new File(ruta)));
-
-	        // creamos el archivo temporal para escribir los objetos modificados
-	        MyObjectOutputStream objOutStream = new MyObjectOutputStream(new FileOutputStream(new File("contactos.tmp")));
-
-	        // leemos todos los objetos del fichero original
-	        List<Contacto> contactos = new ArrayList<>();
-	        while (true) {
-	            try {
-	                Contacto contacto = (Contacto) objInpStream.readObject();
-	                if (contacto.getUsuario().equals(usuario)) {
-	                    // marcamos el objeto como "eliminado virtualmente" (establece el UUID a 0)
-	                    contacto.setUsuario(new UUID(0, 0));
-	                }
-	                // añadimos el contacto a una lista
-	                contactos.add(contacto);
-	            } catch (EOFException e) {
-	                break; // fin del fichero
-	            }
-	        }
-
-	        // escribimos los objetos en el archivo temporal
-	        for (Contacto contacto : contactos) {
-	            objOutStream.writeObject(contacto);
-	        }
-
-	        // cerramos los flujos de entrada y salida
-	        objInpStream.close();
+		// obtenemos todos los contactos de la agenda
+		ArrayList<Contacto> contactos = obtenerAgenda();
+		
+		// si no existe ningún contacto con ese UUID o es 0 devolvemos false
+		if(contactos.stream().filter(x -> x.getUsuario().equals(usuario)).count() == 0 || usuario.equals(new UUID(0, 0))) {
+			return false;
+		}
+		
+		// si existe un contacto con ese UUID lo cambiamos por UUID 0  
+		contactos.stream()
+			     .filter(x -> x.getUsuario().equals(usuario))
+			     .forEach(contacto -> contacto.setUsuario(new UUID(0, 0)));
+		
+		// escribimos en el fichero los contactos actualizados
+        MyObjectOutputStream objOutStream;
+		try {
+			objOutStream = new MyObjectOutputStream(new FileOutputStream(new File(ruta)));
+	        for (Contacto contacto : contactos) objOutStream.writeObject(contacto);
 	        objOutStream.close();
-
-	        // borramos el archivo original y renombramos el archivo temporal al original
-	        File originalFile = new File(ruta);
-	        File tempFile = new File("contactos.tmp");
-	        if (originalFile.delete() && tempFile.renameTo(originalFile)) {
-	            return true;
-	        } else {
-	            return false;
-	        }
-
-	    } catch (IOException | ClassNotFoundException e) {
-	        e.printStackTrace();
-	    }
-	    return false; // si hay algún error, devuelve false
+		} catch (Exception e) {
+			return false;  // ha habido problemas con la escritura
+		} 
+        return true;
 	}
 }

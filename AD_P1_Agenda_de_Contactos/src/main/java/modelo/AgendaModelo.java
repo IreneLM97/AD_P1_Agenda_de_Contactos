@@ -7,22 +7,25 @@ import java.util.stream.Collectors;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
 public class AgendaModelo implements AgendaInterface {
 	/**
 	 * Ruta del fichero donde se almacenará la información
 	 */
 	private String ruta;
-
-	@Override
-	public boolean agregarContacto(Contacto contacto) {
-		try {
-			MyObjectOutputStream objOutStream = new MyObjectOutputStream(new FileOutputStream(new File(ruta), true));
-			objOutStream.writeObject(contacto);
-			objOutStream.close();
-			return true;
-		} catch (Exception e) {
-			return false;
+	
+	/**
+	 * Constructor para asegurarse de que si no existe el archivo se cree
+	 * @param ruta
+	 */
+	public AgendaModelo(String ruta) {
+		this.ruta = ruta;
+		File fichero = new File(ruta);
+		if(!fichero.exists()) {
+			try {
+				fichero.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -60,6 +63,18 @@ public class AgendaModelo implements AgendaInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	@Override
+	public boolean agregarContacto(Contacto contacto) {
+		try {
+			MyObjectOutputStream objOutStream = new MyObjectOutputStream(new FileOutputStream(new File(ruta), true));
+			objOutStream.writeObject(contacto);
+			objOutStream.close();
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 

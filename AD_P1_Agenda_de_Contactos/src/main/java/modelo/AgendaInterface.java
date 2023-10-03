@@ -5,12 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AgendaInterface {
-	/**
-	 * Método para agregar un contacto a la agenda
-	 * @param contacto
-	 * @return true si se ha podido realizar, false en caso contrario
-	 */
-	public boolean agregarContacto(Contacto contacto);
 	
 	/**
 	 * Método para buscar un contacto por UUID
@@ -33,11 +27,19 @@ public interface AgendaInterface {
 	public ArrayList<Contacto> obtenerAgenda();
 	
 	/**
+	 * Método para agregar un contacto a la agenda
+	 * @param contacto
+	 * @return true si se ha podido realizar, false en caso contrario
+	 */
+	public boolean agregarContacto(Contacto contacto);
+	
+	
+	/**
 	 * Método para eliminar un contacto de la agenda
 	 * @param usuario
 	 * @return true si se ha podido realizar, false en caso contrario
 	 */
 
-	public boolean eliminarVirtualmenteContacto(UUID uuidAEliminar);
+	public boolean eliminarVirtualmenteContacto(UUID usuario);
 
 }

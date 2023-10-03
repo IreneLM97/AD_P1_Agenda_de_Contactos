@@ -31,16 +31,18 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public Contacto buscarPorUUID(UUID usuario) {
+		// buscamos los contactos por ese UUID que no hayan sido eliminados (con UUID valor 0)
 		return obtenerAgenda().stream()
-				.filter(x -> x.getUsuario().equals(usuario))
+				.filter(x -> x.getUsuario().equals(usuario) && !x.getUsuario().equals(new UUID(0, 0)))
 				.findAny()
 				.orElse(null);
 	}
 
 	@Override
 	public ArrayList<Contacto> buscarPorNombre(String nombre) {
+		// buscamos los contactos por ese nombre que no hayan sido eliminados (con UUID valor 0)
 	    return obtenerAgenda().stream()
-	            .filter(x -> x.getNombre().startsWith(nombre))
+	            .filter(x -> x.getNombre().startsWith(nombre) && !x.getUsuario().equals(new UUID(0, 0)))
 	            .collect(Collectors.toCollection(ArrayList::new));
 	}
 

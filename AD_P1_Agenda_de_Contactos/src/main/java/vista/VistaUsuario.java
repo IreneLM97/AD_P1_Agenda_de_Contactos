@@ -3,7 +3,6 @@ package vista;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import controlador.IO;
 import modelo.*;
 import constantes.color.*;
 
@@ -28,8 +27,14 @@ public class VistaUsuario {
 						    "-------------------------------------------------");
 	}
 	
+	/**
+	 * Dibuja un separador en la vista del usuario
+	 */
 	public static void mostrarSeparador() {
-	    System.out.println( Colores.FONDO_BLANCO + Colores.BLANCO + "\n===========================================================================\n" + Colores.RESET);
+	    System.out.println(Colores.FONDO_BLANCO + 
+	    		Colores.BLANCO + 
+	    		"\n===========================================================================\n" + 
+	    		Colores.RESET);
 	}
 	
 	/**
@@ -80,8 +85,8 @@ public class VistaUsuario {
 	}
 	
 	/**
-	 * Muestra todos los contactos de la agenda
-	 * @param agenda a mostrar
+	 * Muestra una lista de contactos de la agenda
+	 * @param lista de contactos a mostrar
 	 */
 	public static void mostrarAgenda(ArrayList<Contacto> contactos) {
 	    System.out.println("------------------------------------------------------------------------");

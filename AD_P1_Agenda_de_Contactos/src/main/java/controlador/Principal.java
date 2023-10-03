@@ -36,17 +36,11 @@ public class Principal {
 			
 				// buscar por código
 				case 1: 
-					ArrayList<Contacto> contactoEncontrado = new ArrayList<>();
-					contactoEncontrado.add(agenda.buscarPorUUID(VistaUsuario.solicitarUUID()));
-					if(contactoEncontrado.get(0)== null) { // no se encuentra contacto
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarMenu();
+					contacto = agenda.buscarPorUUID(VistaUsuario.solicitarUUID());
+					if(contacto == null) { // no se encuentra contacto
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.UUID") + Colores.RESET);
 					} else { // se encuentra contacto
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarAgenda(contactoEncontrado);
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarMenu();
+						VistaUsuario.mostrarMsg(Colores.AMARILLO + contacto.toString() + Colores.RESET);
 					}
 					break;
 					
@@ -54,14 +48,9 @@ public class Principal {
 				case 2: 
 					ArrayList<Contacto> contactosEncontrados = agenda.buscarPorNombre(VistaUsuario.solicitarNombre());
 					if (contactosEncontrados.isEmpty()) {
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarMenu();
 					    VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.nombreNoEncontrado") + Colores.RESET);
 					} else {
-						VistaUsuario.mostrarSeparador();
 						VistaUsuario.mostrarAgenda(contactosEncontrados);
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarMenu();
 					}
 					break;
 					
@@ -71,18 +60,13 @@ public class Principal {
 					if(contactos == null) {  // no se pueden mostrar los contactos
 						VistaUsuario.mostrarMsg(Colores.ROJO + prop.getProperty("error.accesoContactos") + Colores.RESET);
 					} else {  // mostramos los contactos
-						VistaUsuario.mostrarSeparador();
 						VistaUsuario.mostrarAgenda(contactos);
-						VistaUsuario.mostrarSeparador();
-						VistaUsuario.mostrarMenu();
 					}
 					break;
 					
 				// añadir contacto
 				case 4: 
-					contacto = VistaUsuario.solicitarContacto();
-					VistaUsuario.mostrarSeparador();
-					VistaUsuario.mostrarMenu();
+					contacto = VistaUsuario.solicitarContacto();					
 					VistaUsuario.mostrarMsg(agenda.agregarContacto(contacto) ? Colores.VERDE + prop.getProperty("msg.agregado") + Colores.RESET : Colores.ROJO + prop.getProperty("error.añadido") + Colores.RESET);
 					break;
 					
@@ -97,11 +81,12 @@ public class Principal {
 					
 				// opción inválida
 				default: 
-					VistaUsuario.mostrarSeparador();
-					VistaUsuario.mostrarMenu();
 					VistaUsuario.mostrarMsg(Colores.ROJO +  prop.getProperty("error.opcion.incorrecta") + Colores.RESET);
 					break;
 			}
+			
+			VistaUsuario.mostrarSeparador();
+			VistaUsuario.mostrarMenu();
 		} while (true);	
 	}
 

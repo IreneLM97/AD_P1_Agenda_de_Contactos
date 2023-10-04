@@ -33,7 +33,7 @@ public class VistaUsuario {
 	public static void mostrarSeparador() {
 	    System.out.println(Colores.FONDO_BLANCO + 
 	    		Colores.BLANCO + 
-	    		"\n===========================================================================\n" + 
+	    		"\n=======================================================================================\n" + 
 	    		Colores.RESET);
 	}
 	

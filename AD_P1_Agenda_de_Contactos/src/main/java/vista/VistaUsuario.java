@@ -76,7 +76,7 @@ public class VistaUsuario {
 		System.out.print("Edad?: ");
 		int edad = IO.readInt();
 		// comprobamos si la edad está entre 1 y 100
-		while(edad<1 && edad>100) {
+		while(edad<1 || edad>100) {
 			System.err.println("ERROR: edad debe estar entre 1 y 100 ?");
 			edad = IO.readInt();
 		}

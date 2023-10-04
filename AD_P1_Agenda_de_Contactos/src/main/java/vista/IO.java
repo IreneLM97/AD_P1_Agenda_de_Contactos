@@ -35,7 +35,7 @@ public class IO {
 			try {
 				return java.util.UUID.fromString(IO.readStringNoEmpty());
 			} catch (Exception e) {
-				System.err.print("ERROR: no es de tipo UUID [" + new UUID(0, 0) + "] ? ");
+				System.err.print("ERROR: no es de tipo UUID [ej: " + new UUID(0, 0) + "] ? ");
 			}
 		}
 	}

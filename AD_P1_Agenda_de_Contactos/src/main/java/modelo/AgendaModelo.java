@@ -44,9 +44,9 @@ public class AgendaModelo implements AgendaInterface {
 
 	@Override
 	public ArrayList<Contacto> buscarPorNombre(String nombre) {
-		// buscamos los contactos por ese nombre que no hayan sido eliminados (con UUID valor 0)
+		// buscamos los contactos por ese nombre, sin distinguir mayúsculas de minúsculas, que no hayan sido eliminados (con UUID valor 0)
 	    return obtenerAgenda().stream()
-	            .filter(x -> x.getNombre().startsWith(nombre) && !x.getUsuario().equals(new UUID(0, 0)))
+	            .filter(x -> x.getNombre().toLowerCase().startsWith(nombre.toLowerCase()) && !x.getUsuario().equals(new UUID(0, 0)))
 	            .collect(Collectors.toCollection(ArrayList::new));
 	}
 
